@@ -9,11 +9,9 @@ Stopwatch sw = Stopwatch.StartNew();
 
 foreach (Portfolio portfolio in portfolios)
 {
-    using (var session = DocumentStoreHolder.Store.OpenSession())
-    { 
-        session.Store(portfolio);
-        session.SaveChanges();
-    }
+    using var session = DocumentStoreHolder.Store.OpenAsyncSession();
+    await session.StoreAsync(portfolio);
+    await session.SaveChangesAsync();
 }
 
 sw.Stop();
