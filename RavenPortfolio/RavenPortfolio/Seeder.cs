@@ -8,6 +8,12 @@
 
             int totalDays = Convert.ToInt32(Math.Round((end - start).TotalDays));
 
+            Console.WriteLine($"Seeding {totalDays} days");
+
+            int entries = 3000;
+            Console.WriteLine($"Seeding {entries} entries per day");
+            Console.WriteLine($"Total entries: {(totalDays * entries):n0}");
+            
             foreach (int day in Enumerable.Range(0, totalDays))
             {
                 var date = start.AddDays(day);
@@ -16,7 +22,7 @@
                 portfolio.Date = date;
                 portfolio.Id = $"{portfolioId}/{date.Year}/{date.Month}/{date.Day}";
 
-                for (int entry = 0; entry < 3000; entry++)
+                for (int entry = 0; entry < entries; entry++)
                 {
                     Portfolio.Entry pe = new Portfolio.Entry
                     {
@@ -33,6 +39,8 @@
 
                 res.Add(portfolio);
             }
+            
+            Console.WriteLine();
 
             return res;
         }
