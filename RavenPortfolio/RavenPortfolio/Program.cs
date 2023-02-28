@@ -86,11 +86,38 @@ class Program
         }
     }
 
+    public static async Task GetPortfolioForMonth(string symbol, int year, int month)
+    {
+        using (var store = new DocumentStore
+               {
+                   Database = "portfolio",
+                   Urls = new[] { "http://127.0.0.1:8080" }
+               })
+        {
+            store.Initialize();
+
+            // here to force a request for RavenDB, nothing else. So the benchmark won't have to create
+            // the connection to the server, we can assume that this is already there
+            store.Maintenance.Send(new Raven.Client.Documents.Operations.GetStatisticsOperation());
+
+            Console.WriteLine("Starting fetch...");
+            var sp = Stopwatch.StartNew();
+            var session = store.OpenAsyncSession();
+            Portfolio[] monthlyPortfolio = 
+                await session.Query<Portfolio>()
+                .Where(x => x.Id.StartsWith($"{symbol}/{year}/{month}/"))
+                .ToArrayAsync();
+            Console.WriteLine($"Completed, Elapsed time: {sp.Elapsed}");
+        }
+    }
+
     static async Task Main(string[] args)
     {
         //await BulkInsert();
 
         //await GetPortfolioForDay("p1", 2005, 5, 5);
+
+        //await GetPortfolioForMonth("p1", 2005, 5);
     }
 
 }
