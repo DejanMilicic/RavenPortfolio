@@ -10,7 +10,7 @@
 
             Console.WriteLine($"Seeding {totalDays} days");
 
-            int entries = 1;
+            int entries = 3000;
             Console.WriteLine($"Seeding {entries} entries per day");
             Console.WriteLine($"Total entries: {(totalDays * entries):n0}");
             

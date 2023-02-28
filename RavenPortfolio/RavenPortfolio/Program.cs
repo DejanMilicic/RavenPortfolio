@@ -20,25 +20,6 @@ class Program
     static async Task Main(string[] args)
     {
         List<Portfolio> portfolios = Seeder.CreatePortfolio("p1", new DateTime(2000, 1, 1), new DateTime(2010, 1, 1));
-//        List<string> portfolios = new List<string>
-//        {
-//@"
-//{
-//    ""Entries"": [
-//        {
-//            ""Symbol"": ""GOOG"",
-//            ""Price"": 100.12,
-//            ""Quantity"": 100,
-//            ""Factor1"": 111,
-//            ""Factor2"": 222,
-//            ""Factor3"": 333
-//        }
-//    ],
-//    ""Date"": ""2009-12-31T00:00:00.0000000""
-//}
-//"
-//        };
-
 
         static void DoBulkInsert(List<Portfolio> portfolios, DocumentStore store, int docs)
         {
@@ -88,12 +69,7 @@ class Program
         })
         {
             store.Initialize();
-            //Console.WriteLine("Init cache...");
-            //Parallel.ForEach(portfolios, p =>
-            //{
-            //    store.Conventions.BulkInsert.TrySerializeEntityToJsonStream(p, new MetadataAsDictionary(),
-            //        StreamWriter.Null);
-            //});
+
             Console.WriteLine("Ready...");
 
             // here to force a request for RavenDB, nothing else. So the benchmark won't have to create
@@ -110,7 +86,6 @@ class Program
                 }
             }
 
-
             //var docs = 300000;
             //int threadsToUse = 1;
             //var threads = new Thread[threadsToUse];
@@ -124,7 +99,7 @@ class Program
             //{
             //    thread.Join();
             //}
-            Console.WriteLine(sp.Elapsed);
+            Console.WriteLine($"Elapsed time: {sp.Elapsed}");
 
         }
 
