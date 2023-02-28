@@ -26,7 +26,7 @@
                 {
                     Portfolio.Entry pe = new Portfolio.Entry
                     {
-                        Symbol = "x",
+                        Symbol = "GOOG",
                         Price = 100.12m,
                         Quantity = 100,
                         Factor1 = 111,
