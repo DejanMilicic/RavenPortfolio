@@ -50,13 +50,23 @@ class Program
 
             var sp = Stopwatch.StartNew();
 
-            await using (var bulk = store.BulkInsert())
+            var tasks = new List<Task>();
+
+            foreach (var chunk in portfolios.Chunk(500))
             {
-                foreach (var portfolio in portfolios)
-                {
-                    await bulk.StoreAsync(portfolio.Json, portfolio.Id);
-                }
+                tasks.Add(
+                    Task.Run(async () =>
+                    {
+                        await using var bulk = store.BulkInsert();
+                        foreach (var p in chunk)
+                        {
+                            await bulk.StoreAsync(p.Json, p.Id);
+                        }
+                    }
+                ));
             }
+
+            Task.WaitAll(tasks.ToArray());
 
             Console.WriteLine($"Completed, Elapsed time: {sp.Elapsed}");
         }
