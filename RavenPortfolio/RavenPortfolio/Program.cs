@@ -50,11 +50,11 @@ class Program
 
             var sp = Stopwatch.StartNew();
 
-            using (var bulk = store.BulkInsert())
+            await using (var bulk = store.BulkInsert())
             {
                 foreach (var portfolio in portfolios)
                 {
-                    bulk.Store(portfolio.Json, portfolio.Id);
+                    await bulk.StoreAsync(portfolio.Json, portfolio.Id);
                 }
             }
 
