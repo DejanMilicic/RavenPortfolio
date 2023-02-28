@@ -1,8 +1,10 @@
-﻿namespace RavenPortfolio
+﻿using Newtonsoft.Json;
+
+namespace RavenPortfolio
 {
     public static class Seeder
     {
-        public static List<Portfolio> CreatePortfolio(string portfolioId, DateTime start, DateTime end)
+        public static List<Portfolio> CreatePortfolio(string portfolioId, DateTime start, DateTime end, int symbols)
         {
             var res = new List<Portfolio>();
 
@@ -10,9 +12,8 @@
 
             Console.WriteLine($"Seeding {totalDays} days");
 
-            int entries = 3000;
-            Console.WriteLine($"Seeding {entries} entries per day");
-            Console.WriteLine($"Total entries: {(totalDays * entries):n0}");
+            Console.WriteLine($"Seeding {symbols} symbols per day");
+            Console.WriteLine($"Total entries: {(totalDays * symbols):n0}");
             
             foreach (int day in Enumerable.Range(0, totalDays))
             {
@@ -22,7 +23,7 @@
                 portfolio.Date = date;
                 portfolio.Id = $"{portfolioId}/{date.Year}/{date.Month}/{date.Day}";
 
-                for (int entry = 0; entry < entries; entry++)
+                for (int entry = 0; entry < symbols; entry++)
                 {
                     Portfolio.Entry pe = new Portfolio.Entry
                     {
@@ -43,6 +44,29 @@
             Console.WriteLine();
 
             return res;
+        }
+
+        public static List<SerializedPortfolio> CreateJsonPortfolio(string portfolioId, DateTime start, DateTime end, int symbols)
+        {
+            List<Portfolio> portfolios = Seeder.CreatePortfolio(portfolioId, start, end, symbols);
+
+            var ret = new List<SerializedPortfolio>();
+
+            foreach (Portfolio portfolio in portfolios)
+            {
+                ret.Add(
+                    new SerializedPortfolio{Id = portfolio.Id, Json = JsonConvert.SerializeObject(portfolio)});
+            }
+
+            return ret;
+        }
+
+
+        public class SerializedPortfolio
+        {
+            public string Id { get; set; }
+
+            public string Json { get; set; }
         }
     }
 }
