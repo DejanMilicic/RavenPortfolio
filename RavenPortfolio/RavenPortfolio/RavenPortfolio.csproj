@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="RavenDB.Client" Version="5.4.101" />
+    <PackageReference Include="SpanJson" Version="4.0.0" />
   </ItemGroup>
 
 </Project>

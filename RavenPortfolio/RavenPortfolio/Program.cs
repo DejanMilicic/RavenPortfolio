@@ -52,7 +52,7 @@ class Program
 
             var tasks = new List<Task>();
 
-            foreach (var chunk in portfolios.Chunk(500))
+            foreach (var chunk in portfolios.Chunk(1000))
             {
                 tasks.Add(
                     Task.Run(async () =>

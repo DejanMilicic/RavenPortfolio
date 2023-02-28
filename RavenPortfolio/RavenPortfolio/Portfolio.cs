@@ -1,4 +1,6 @@
-﻿namespace RavenPortfolio
+﻿using System.Runtime.Serialization;
+
+namespace RavenPortfolio
 {
     // portfolio_id_1, 1.1.2023, GOOG, 12, 12, 215, factors...
 
@@ -8,9 +10,15 @@
 
         public DateTime Date { get; set; }
 
-        // load testing: 3.000 symbols for a specific date
         public List<Entry> Entries = new List<Entry>();
-        
+
+        [DataMember(Name = "@metadata")]
+        public Dictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>
+        {
+            ["@collection"] = "Portfolios",
+            ["Raven-Clr-Type"] = "RavenPortfolio.Portfolio, RavenPortfolio"
+        };
+
         public class Entry
         {
             public string Symbol { get; set; }

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace RavenPortfolio
+﻿namespace RavenPortfolio
 {
     public static class Seeder
     {
@@ -55,7 +53,11 @@ namespace RavenPortfolio
             foreach (Portfolio portfolio in portfolios)
             {
                 ret.Add(
-                    new SerializedPortfolio{Id = portfolio.Id, Json = JsonConvert.SerializeObject(portfolio)});
+                    new SerializedPortfolio
+                    {
+                        Id = portfolio.Id,
+                        Json = SpanJson.JsonSerializer.Generic.Utf16.Serialize(portfolio)
+                    });
             }
 
             return ret;
