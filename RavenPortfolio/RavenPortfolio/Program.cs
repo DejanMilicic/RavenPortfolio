@@ -10,11 +10,7 @@ class Program
     {
         Console.WriteLine("Starting seeding...");
 
-        var portfolios = Seeder.CreateJsonPortfolio(
-            "p1",
-            new DateTime(2000, 1, 1),
-            new DateTime(2010, 1, 1),
-            3000);
+        var portfolios = Seeder.CreateJsonPortfolio();
 
         using (var store = new DocumentStore
         {
@@ -138,16 +134,15 @@ class Program
 
             await operation.WaitForCompletionAsync(TimeSpan.FromSeconds(15));
 
-
             Console.WriteLine($"Completed, Elapsed time: {sp.Elapsed}");
         }
     }
 
     static async Task Main(string[] args)
     {
-        //await BulkInsert();
+        await BulkInsert();
 
-        //await GetPortfolioForDay("p1", 2005, 5, 5);
+        //await GetPortfolioForDay("p1", 2002, 9, 26);
 
         //await GetPortfolioForMonth("p1", 2005, 5);
         

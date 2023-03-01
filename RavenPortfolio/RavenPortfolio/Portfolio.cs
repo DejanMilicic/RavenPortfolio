@@ -10,6 +10,10 @@ namespace RavenPortfolio
 
         public DateTime Date { get; set; }
 
+        public string Name { get; set; }
+
+        public string Owner { get; set; }
+
         public List<Entry> Entries = new List<Entry>();
 
         [DataMember(Name = "@metadata")]

@@ -2,30 +2,65 @@
 {
     public static class Seeder
     {
-        public static List<Portfolio> CreatePortfolio(string portfolioId, DateTime start, DateTime end, int symbols)
+        public static List<Portfolio> Seed()
+        {
+            List<string> portfolioIdentifiers = new List<string>
+            {
+                "p1_u1", "p2_u1", "p3_u2", "p4_u3"
+            };
+
+            List<string> symbols = new List<string>
+            {
+                "APPL", "GOOG", "ALPHA"
+            };
+
+            DateTime start = new DateTime(2000, 1, 1);
+
+            Random days = new Random();
+
+            List<Portfolio> portfolios = new List<Portfolio>();
+
+            foreach (string identifier in portfolioIdentifiers)
+            {
+                string portfolioId = identifier.Split('_')[0];
+                string ownerId = identifier.Split('_')[1];
+
+                portfolios.AddRange(CreatePortfolio(
+                    portfolioId,
+                    ownerId,
+                    start,
+                    days.Next(300, 400),
+                    symbols
+                    ));
+            }
+
+            return portfolios;
+        }
+
+
+        public static List<Portfolio> CreatePortfolio(string portfolioId, string ownerId, DateTime start, int days, List<string> symbols)
         {
             var res = new List<Portfolio>();
 
-            int totalDays = Convert.ToInt32(Math.Round((end - start).TotalDays));
-
-            Console.WriteLine($"Seeding {totalDays} days");
+            Console.WriteLine($"\nSeeding portfolio {portfolioId} for {ownerId}");
 
             Console.WriteLine($"Seeding {symbols} symbols per day");
-            Console.WriteLine($"Total entries: {(totalDays * symbols):n0}");
+            //Console.WriteLine($"Total entries: {(totalDays * symbols):n0}");
             
-            foreach (int day in Enumerable.Range(0, totalDays))
+            foreach (int day in Enumerable.Range(0, days))
             {
                 var date = start.AddDays(day);
 
                 Portfolio portfolio = new Portfolio();
                 portfolio.Date = date;
                 portfolio.Id = $"{portfolioId}/{date.Year}/{date.Month}/{date.Day}";
+                portfolio.Owner = ownerId;
 
-                for (int entry = 0; entry < symbols; entry++)
+                foreach (string symbol in symbols.OrderBy(x => Guid.NewGuid()))
                 {
                     Portfolio.Entry pe = new Portfolio.Entry
                     {
-                        Symbol = "GOOG",
+                        Symbol = symbol,
                         Price = 100.12m,
                         Quantity = 100,
                         Factor1 = 111,
@@ -44,9 +79,9 @@
             return res;
         }
 
-        public static List<SerializedPortfolio> CreateJsonPortfolio(string portfolioId, DateTime start, DateTime end, int symbols)
+        public static List<SerializedPortfolio> CreateJsonPortfolio()
         {
-            List<Portfolio> portfolios = Seeder.CreatePortfolio(portfolioId, start, end, symbols);
+            List<Portfolio> portfolios = Seeder.Seed();
 
             var ret = new List<SerializedPortfolio>();
 
