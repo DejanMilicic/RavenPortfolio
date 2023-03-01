@@ -11,7 +11,7 @@
 
             List<string> symbols = new List<string>
             {
-                "APPL", "GOOG", "ALPHA"
+                "APPL", "GOOG", "ALPHA", "AMZN", "PCAR", "BRK.A", "BRK.B"
             };
 
             DateTime start = new DateTime(2000, 1, 1);
@@ -29,7 +29,7 @@
                     portfolioId,
                     ownerId,
                     start,
-                    days.Next(300, 400),
+                    days.Next(3000, 4000),
                     symbols
                     ));
             }
@@ -44,7 +44,7 @@
 
             Console.WriteLine($"\nSeeding portfolio {portfolioId} for {ownerId}");
 
-            Console.WriteLine($"Seeding {symbols} symbols per day");
+            Console.WriteLine($"Seeding {symbols.Count} symbols per day");
             //Console.WriteLine($"Total entries: {(totalDays * symbols):n0}");
             
             foreach (int day in Enumerable.Range(0, days))
@@ -107,9 +107,3 @@
         }
     }
 }
-
-/*
-from "Portfolios" where startsWith(id(), 'p1/') update {
-    del(id(this));
-}
-*/
