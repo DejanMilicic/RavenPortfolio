@@ -188,6 +188,6 @@ class Program
         
         //await DeletePortfolio("p1");
 
-        await FilterByDateBySymbol(new DateTime(2001, 1, 1), "appl");
+        //await FilterByDateBySymbol(new DateTime(2001, 1, 1), "appl");
     }
 }
